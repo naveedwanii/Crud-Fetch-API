@@ -12,7 +12,7 @@ const renderPosts = (posts) =>{
     posts.forEach(post =>{
         output += `
         <div class="card mt-4 col-md-6 bg-light" >
-          <div class="card-body">
+          <div class="card-body" data-id="${post.id}">
            <h5 class="card-title">${post.title}</h5>
             <h6 class="card-subtitle mb-2 text-muted"></h6>
             <p class="card-text">${post.body}</p>
@@ -90,13 +90,27 @@ addPostForm.addEventListener('click', ()=>{
 })
 
 
-/*
+
 postsList.addEventListener('click', (e)=>{
     e.preventDefault()
-    let editButtonPressed = e.target.id == 'edit-post'
+    let delButtonIsPressed = e.target.id == 'delete-post'
+    let editButtonIsPressed = e.target.id == 'edit-post'
+
+    
+
+    let id = e.target.parentElement.dataset.id
+
+    //Delete the existing Post
+    //Method: DELETE
+    if(delButtonIsPressed){
+      fetch(`${url2}/${id}`)
+      .then(res => res.json())
+      .then(() => location.reload())
+    }
+
 })
 
-if(editButtonPressed){
+if(editButtonIsPressed){
     const parent = e.target.parentElement;
     let titleContent = parent.querySelector('.card-title').textContent;
     let bodyContent = parent.querySelector('.card-text').textContent;
@@ -114,7 +128,7 @@ btnSubmit.addEventListener('click',()=>{
 })
 
 fetch(`${url2}/${id}`, {
-  method: 'PUT',
+  method: 'PATCH',
   headers: {
     'Content-type': 'application/json; charset=UTF-8',
   },
@@ -129,7 +143,6 @@ fetch(`${url2}/${id}`, {
 .then(()=> location.reload())
 
 
-*/
 
 
 
